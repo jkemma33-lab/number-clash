@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Number Clash</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app" aria-labelledby="game-title">
+      <section class="topbar">
+        <div>
+          <h1 id="game-title">Number Clash</h1>
+          <p id="guidance">Pick two numbers in a clear straight line. Equal numbers or pairs that total 10 disappear.</p>
+        </div>
+        <div id="status" class="status">Playing</div>
+      </section>
+
+      <section class="stats" aria-label="Game stats">
+        <article class="stat-card">
+          <span>Left</span>
+          <strong id="numbers-left">36</strong>
+        </article>
+        <article class="stat-card">
+          <span>Cleared</span>
+          <strong id="cleared-count">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Moves</span>
+          <strong id="move-count">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Adds</span>
+          <strong id="adds-left">5</strong>
+        </article>
+      </section>
+
+      <section class="board-wrap" aria-label="Game board">
+        <div id="board" class="board"></div>
+      </section>
+
+      <section class="message-panel" aria-live="polite">
+        <div>
+          <span>Selected</span>
+          <strong id="selected-text">None</strong>
+        </div>
+        <div>
+          <span>Last</span>
+          <strong id="last-action">Game started</strong>
+        </div>
+      </section>
+
+      <section class="actions" aria-label="Game actions">
+        <button id="add-numbers" class="add-numbers" type="button">Add Numbers</button>
+        <button id="new-game" class="new-game" type="button">New Game</button>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
