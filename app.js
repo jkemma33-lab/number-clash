@@ -1,5 +1,5 @@
 const columns = 9;
-const copiesPerDigit = 4;
+const initialNumbers = 34;
 const maxAdds = 5;
 const directions = [
   [-1, -1], [-1, 0], [-1, 1],
@@ -30,8 +30,7 @@ const addNumbers = document.querySelector("#add-numbers");
 const newGame = document.querySelector("#new-game");
 
 function resetGame() {
-  const numbers = shuffle(makeBalancedNumbers());
-  state.rows = numbersToRows(numbers);
+  state.rows = makeInitialRows();
   state.selected = null;
   state.cleared = 0;
   state.moves = 0;
@@ -41,9 +40,17 @@ function resetGame() {
   render();
 }
 
-function makeBalancedNumbers() {
+function makeInitialRows() {
+  return numbersToRows(shuffle(makeInitialNumbers()));
+}
+
+function makeInitialNumbers() {
+  const reducedNumber = Math.floor(Math.random() * 9) + 1;
   return Array.from({ length: 9 }, (_, index) => index + 1)
-    .flatMap((number) => Array.from({ length: copiesPerDigit }, () => number));
+    .flatMap((number) => {
+      const count = number === reducedNumber ? 2 : 4;
+      return Array.from({ length: count }, () => number);
+    });
 }
 
 function shuffle(items) {
@@ -188,10 +195,17 @@ function collapseEmptyRows() {
   if (removed > 0) {
     state.lastAction += ` / collapsed ${removed} empty row${removed === 1 ? "" : "s"}`;
   }
+
+  if (numbersRemaining() === 0) {
+    state.rows = makeInitialRows();
+    state.selected = null;
+    state.invalidCell = null;
+    state.lastAction += ` / dealt ${initialNumbers} new numbers`;
+  }
 }
 
 function addCurrentNumbers() {
-  if (state.addsUsed >= maxAdds || isComplete()) return;
+  if (state.addsUsed >= maxAdds) return;
 
   const numbers = currentNumbers();
   if (numbers.length === 0) return;
@@ -237,11 +251,11 @@ function numbersRemaining() {
 }
 
 function isComplete() {
-  return numbersRemaining() === 0;
+  return false;
 }
 
 function isGameOver() {
-  return !isComplete() && state.addsUsed >= maxAdds && !hasAvailableMove();
+  return state.addsUsed >= maxAdds && !hasAvailableMove();
 }
 
 function isTerminal() {
@@ -296,14 +310,12 @@ function hasWrappedRowMove(row, column) {
 }
 
 function gameStatus() {
-  if (isComplete()) return "Complete";
   if (isGameOver()) return "Game Over";
   if (!hasAvailableMove()) return "Add";
   return state.selected ? "Select Pair" : "Playing";
 }
 
 function guidanceText() {
-  if (isComplete()) return "All numbers are cleared.";
   if (isGameOver()) return "No valid pairs remain and the add limit has been used.";
   if (!hasAvailableMove()) return "No valid pairs remain. Add numbers to continue.";
   if (state.selected) return "Choose a second number. No possible targets are highlighted.";

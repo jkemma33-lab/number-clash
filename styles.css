@@ -35,7 +35,7 @@ button {
 }
 
 .app {
-  width: min(100%, 540px);
+  width: min(100%, 620px);
   min-height: 100vh;
   padding: max(18px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
   display: flex;
@@ -122,8 +122,9 @@ p {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 5px;
+  grid-template-columns: repeat(9, minmax(42px, 1fr));
+  gap: 6px;
+  min-width: 408px;
 }
 
 .cell {
@@ -135,7 +136,7 @@ p {
   background: var(--cell);
   color: var(--text);
   cursor: pointer;
-  font-size: clamp(0.95rem, 4.7vw, 1.35rem);
+  font-size: clamp(1.15rem, 5.2vw, 1.55rem);
   font-weight: 1000;
   line-height: 1;
   transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
@@ -244,6 +245,7 @@ p {
   }
 
   .board {
-    gap: 4px;
+    grid-template-columns: repeat(9, 44px);
+    gap: 5px;
   }
 }
