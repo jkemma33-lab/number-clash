@@ -37,7 +37,7 @@ button {
 .app {
   width: min(100%, 620px);
   min-height: 100vh;
-  padding: max(18px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
+  padding: max(18px, env(safe-area-inset-top)) 12px max(22px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -113,7 +113,7 @@ p {
 
 .board-wrap {
   max-height: 58vh;
-  padding: 8px;
+  padding: 4px;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.075);
@@ -122,9 +122,8 @@ p {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, minmax(42px, 1fr));
-  gap: 6px;
-  min-width: 408px;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 1px;
 }
 
 .cell {
@@ -132,11 +131,11 @@ p {
   width: 100%;
   min-width: 0;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 7px;
+  border-radius: 4px;
   background: var(--cell);
   color: var(--text);
   cursor: pointer;
-  font-size: clamp(1.15rem, 5.2vw, 1.55rem);
+  font-size: clamp(1.1rem, 6vw, 1.5rem);
   font-weight: 1000;
   line-height: 1;
   transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
@@ -232,8 +231,8 @@ p {
 
 @media (max-width: 380px) {
   .app {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   .topbar {
@@ -245,7 +244,6 @@ p {
   }
 
   .board {
-    grid-template-columns: repeat(9, 44px);
-    gap: 5px;
+    gap: 1px;
   }
 }
