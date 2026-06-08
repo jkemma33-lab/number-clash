@@ -13,6 +13,7 @@ const state = {
   cleared: 0,
   moves: 0,
   addsUsed: 0,
+  addLimit: maxAdds,
   lastAction: "Game started",
   invalidCell: null
 };
@@ -35,6 +36,7 @@ function resetGame() {
   state.cleared = 0;
   state.moves = 0;
   state.addsUsed = 0;
+  state.addLimit = maxAdds;
   state.lastAction = "Game started";
   state.invalidCell = null;
   render();
@@ -45,10 +47,10 @@ function makeInitialRows() {
 }
 
 function makeInitialNumbers() {
-  const reducedNumber = Math.floor(Math.random() * 9) + 1;
+  const reducedNumbers = shuffle(Array.from({ length: 9 }, (_, index) => index + 1)).slice(0, 2);
   return Array.from({ length: 9 }, (_, index) => index + 1)
     .flatMap((number) => {
-      const count = number === reducedNumber ? 2 : 4;
+      const count = reducedNumbers.includes(number) ? 3 : 4;
       return Array.from({ length: count }, () => number);
     });
 }
@@ -200,12 +202,13 @@ function collapseEmptyRows() {
     state.rows = makeInitialRows();
     state.selected = null;
     state.invalidCell = null;
-    state.lastAction += ` / dealt ${initialNumbers} new numbers`;
+    state.addLimit += 1;
+    state.lastAction += ` / dealt ${initialNumbers} new numbers / gained 1 add`;
   }
 }
 
 function addCurrentNumbers() {
-  if (state.addsUsed >= maxAdds) return;
+  if (state.addsUsed >= state.addLimit) return;
 
   const numbers = currentNumbers();
   if (numbers.length === 0) return;
@@ -255,7 +258,7 @@ function isComplete() {
 }
 
 function isGameOver() {
-  return state.addsUsed >= maxAdds && !hasAvailableMove();
+  return state.addsUsed >= state.addLimit && !hasAvailableMove();
 }
 
 function isTerminal() {
@@ -311,7 +314,6 @@ function hasWrappedRowMove(row, column) {
 
 function gameStatus() {
   if (isGameOver()) return "Game Over";
-  if (!hasAvailableMove()) return "Add";
   return state.selected ? "Select Pair" : "Playing";
 }
 
@@ -331,12 +333,12 @@ function render() {
   numbersLeft.textContent = numbersRemaining();
   clearedCount.textContent = state.cleared;
   moveCount.textContent = state.moves;
-  addsLeft.textContent = maxAdds - state.addsUsed;
+  addsLeft.textContent = state.addLimit - state.addsUsed;
   status.textContent = gameStatus();
   guidance.textContent = guidanceText();
   selectedText.textContent = selectedLabel();
   lastAction.textContent = state.lastAction;
-  addNumbers.disabled = state.addsUsed >= maxAdds || isComplete();
+  addNumbers.disabled = state.addsUsed >= state.addLimit || isComplete();
 
   board.replaceChildren(...state.rows.flatMap((row, rowIndex) => {
     return row.map((value, columnIndex) => renderCell(value, rowIndex, columnIndex));
