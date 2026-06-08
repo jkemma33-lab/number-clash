@@ -131,6 +131,12 @@ p {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.075);
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.board-wrap::-webkit-scrollbar {
+  display: none;
 }
 
 .board {
