@@ -210,7 +210,7 @@ function collapseEmptyRows() {
 function addCurrentNumbers() {
   if (state.addsUsed >= state.addLimit) return;
 
-  const numbers = currentNumbers();
+  const numbers = shuffle(currentNumbers());
   if (numbers.length === 0) return;
 
   let insertion = nextInsertionPoint();
